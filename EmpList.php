@@ -5,15 +5,15 @@
         fclose($empFile);
         $employees = json_decode($strData, true);
         // print_r($employees);
-        $salaries = [];
-        $aboveAvg = [];
-        $sum = 0;
-        foreach($employees as $emp){
+        $salaries = []; //array with all salaries, so its easier to calculate the avg
+        $aboveAvg = []; //array to store employees with salary above avg
+        $sum = 0; //var to sum all salaries
+        foreach($employees as $emp){ //loop through each employee inside database(now inside employees var)
             $fullName = $emp['fullName'];
-            $salaries[$emp['fname']."_".$emp['lname']] = $emp['final_sal'];
+            $salaries[$emp['fname']."_".$emp['lname']] = $emp['final_sal']; //setting the salary of emp. Used key with 'fname_last name' to dont have spaces in the key
             $sum += $emp['final_sal'];
         }
-        $avgSal = $sum/count($salaries);
+        $avgSal = round($sum/count($salaries),2); //calc the avg salary and rounding to two decimal digits
         foreach($employees as $emp){
             if($emp['final_sal']>$avgSal){
                 $fullName = $emp['fullName'];
@@ -22,7 +22,7 @@
                     'fullName'=>$fullName, 
                     'mStatus'=>$emp['mStatus'], 
                     'final_sal'=>$emp['final_sal']
-                ];
+                ]; //using this variable to store some infos to display in table emp. with high salary
                 array_push($aboveAvg, $tmp);
             }
         }
@@ -69,19 +69,15 @@
                 <?php
                     if(file_exists('./data/EmpData.txt')){
                         foreach($employees as $idx=>$emp){
+                            // I didn't used another foreach inside $emp variable because the td aren't in correct order of the emp data
+                            //And there's more keys inside emp than in the td that's being displayed
                             echo "<tr class='table-light'>";
                             echo "<td scope='row'>".$emp['fname']." ".$emp['lname']."</td>";
-                            echo "<td scope='row'>".$emp['empPos']."</td>";
-                            echo "<td scope='row'>".$emp['empDep']."</td>";
-                            echo "<td scope='row'>".$emp['salary']."</td>";
-                            echo "<td scope='row'>".$emp['mStatus']."</td>";
-                            if($emp['mStatus']=='Married'){
-                                $baseSal = $emp['salary'];
-                                $finalSal = $baseSal + ($baseSal * 0.1);
-                                echo "<td scope='row'>".$finalSal."</td>";
-                            }else{
-                                echo "<td scope='row'>".$emp['salary']."</td>";
-                            }
+                            echo "<td>".$emp['empPos']."</td>";
+                            echo "<td>".$emp['empDep']."</td>";
+                            echo "<td>".$emp['salary']."</td>";
+                            echo "<td>".$emp['mStatus']."</td>";
+                            echo "<td>".$emp['final_sal']."</td>";
                             echo "</tr>";
                         }
                     }
@@ -131,7 +127,7 @@
                                         $aboveSum += $expEmp['final_sal'];
                                         echo "<tr class='table-light'>";
                                         echo "<td scope='row'>".$expEmp['fullName']. "</td>";
-                                        echo "<td scope='row'>".$expEmp['final_sal']. "</td>";
+                                        echo "<td>".$expEmp['final_sal']. "</td>";
                                         echo "</tr>";
                                     }
                                 }
