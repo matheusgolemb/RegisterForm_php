@@ -16,8 +16,9 @@
             </h3>
         </div>
         <!-- <form action="http://localhost/php_course/works/Matheus_PHP_CW1/Reg.php" method="post"> -->
-        <!-- I changed the line 18 to line 20 to make sure that there's no error.-->
-        <form action="./Reg.php" method="post">
+        <!-- I'm not sure if line 20 is correct. I tried to use the relative path ./Reg.php but i got an error.-->
+        <!-- And I can't use php superGlobal bc this is html file, so I used the full address. -->
+        <form action="http://localhost/php_course/works/Matheus_PHP_CW1/Reg.php" method="post">
             <div class="row pt-1">
                 <div class="mb-2 col">
                 <label for="fname" class="form-label">First Name</label>
@@ -74,8 +75,11 @@
                 </div>
             </div>
             <div class="row">
-                <div class="mt-3 d-flex justify-content-center">
+                <div class="mt-3 d-flex justify-content-evenly">
                     <button type="submit" class="btn btn-outline-light px-5">Register</button>
+                    <a href="http://localhost/php_course/works/Matheus_PHP_CW1/EmpList.php" class="btn btn-outline-light p-3">
+                        See employees list
+                    </a>
                 </div>
             </div>
         </form>

@@ -16,21 +16,16 @@
         $avgSal = round($sum/count($salaries),2); //calc the avg salary and rounding to two decimal digits
         foreach($employees as $emp){
             if($emp['final_sal']>$avgSal){
-                $fullName = $emp['fullName'];
-                // $aboveAvg = $emp;
-                $tmp = [
-                    'fullName'=>$fullName, 
-                    'mStatus'=>$emp['mStatus'], 
-                    'final_sal'=>$emp['final_sal']
-                ]; //using this variable to store some infos to display in table emp. with high salary
-                array_push($aboveAvg, $tmp);
+                // array_push($aboveAvg, [$emp['fullName'] => $emp['final_sal']]);
+                $aboveAvg[$emp['fullName']]=$emp['final_sal'];
             }
         }
-        // print_r($employees);
-        // echo "<br/>";
-        // print_r("The avg salary is: ".$avgSal);
+        // print_r($aboveAvg);
+        arsort($aboveAvg); //sorting associate array in descending order
         // echo "<br/>";
         // print_r($aboveAvg);
+        // print_r("The avg salary is: ".$avgSal);
+        // // echo "<br/>";
         // echo "<br/>";
         // print_r($salaries);
         // $avgSal
@@ -48,8 +43,16 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </head>
 <body>
-    <div class="container col-10 mt-3 d-grid gap-5">
+    <div class="container col-10 mt-3 d-grid gap-3">
+        <div class="container">
+            <a href="./EmpReg.html" class="btn btn-outline-dark p-3">
+               Register form
+            </a>
+        </div>
         <div class="table-responsive">
+            <caption>
+                <h3 id="titleTable">Employees List</h3>
+            </caption>
             <table class="table table-striped
             table-hover	
             table-borderless
@@ -123,11 +126,12 @@
                                 <?php
                                 if(file_exists('./data/EmpData.txt')){
                                     $aboveSum=0;
-                                    foreach($aboveAvg as $key=>$expEmp){
-                                        $aboveSum += $expEmp['final_sal'];
+                                    foreach($aboveAvg as $name=>$sal){
                                         echo "<tr class='table-light'>";
-                                        echo "<td scope='row'>".$expEmp['fullName']. "</td>";
-                                        echo "<td>".$expEmp['final_sal']. "</td>";
+                                        // foreach($item as $name=>$sal){
+                                            $aboveSum += $sal;
+                                            echo "<td scope='row'>$name</td><td>$sal</td>";
+                                        // }
                                         echo "</tr>";
                                     }
                                 }
@@ -159,6 +163,10 @@
     }
     html, body{
         background-color: whitesmoke;
+    }
+    #titleTable{
+        color: darkslateblue;
+
     }
 </style>
 </html>

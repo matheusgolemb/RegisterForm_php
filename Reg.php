@@ -42,5 +42,8 @@
         }
         echo "<br/>";
         echo "<h3>Information added to database with success!</h3>";
+        header('Location: http://localhost/php_course/works/Matheus_PHP_CW1/EmpList.php');
+        // or die();
+        exit();
     }
 ?>
